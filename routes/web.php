@@ -12,5 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('twitter/search');
 });
+
+Route::get('twitter/search/', 'TwitterController@search');
