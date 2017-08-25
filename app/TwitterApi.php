@@ -42,7 +42,10 @@ class TwitterApi
 	{
 		$twitter = new TwitterOAuth(env('TWITTER_CONSUMER_KEY'), env('TWITTER_CONSUMER_SECRET'), null, $this->accessToken);
 
-		$response = $twitter->get('search/tweets', ['q' => $this->searchTypes[$type] . $hashtag]);
+		$response = $twitter->get('search/tweets', [
+			'q' => $this->searchTypes[$type] . $hashtag,
+			'count' => 100
+		]);
 
 		if($twitter->getLastHttpCode() != 200)
 			throw new Exception('Erro ao efetuar busca no twitter: ' . $response->errors[0]->message);
