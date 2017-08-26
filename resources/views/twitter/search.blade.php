@@ -4,16 +4,12 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<form method="GET" action="search">
-				<div class="form-group">
+				<div class="form-inline">
 					<div class=" col-md-4 col-md-offset-3">
 						<label for="hashtag">#Hashtag#</label>
-						<input type="text" name="hashtag" value="{{ $hashtag }}" size="35">
+						<input type="text" class="form-control" name="hashtag" value="{{ $hashtag }}" size="32">
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-2">
-						<input type="submit" class="btn btn-primary btn-sm" value="Buscar">
-					</div>
+					<input type="submit" class="btn btn-primary btn-sm" value="Buscar">
 				</div>
 			</form>
 		</div>
@@ -46,8 +42,11 @@
 							<span class="username">
 								{{ '@' . $tweet->user->screen_name }}
 							</span>
+							<span class="tweet time">
+								- {{ TweetInfo::displayDateTime($tweet->retweeted_status->created_at) }}
+							</span>
 
-							<div class="tweet-text js-tweet-text tweet-text tweet">
+							<div class="tweet-text js-tweet-text tweet">
 								<p>
 									{{ $tweet->retweeted_status->text }}
 								</p>
