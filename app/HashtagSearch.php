@@ -5,7 +5,7 @@ namespace App;
 use App\TwitterApi;
 use Carbon\Carbon;
 
-class Hashtag
+class HashtagSearch
 {
 	private $twitterApi;
 	private $tweets;
