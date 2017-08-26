@@ -15,14 +15,20 @@ class TwitterController extends Controller
     	//$tweets = $twitter->search('hashtag', $request->hashtag);
     	//echo "<PRE>";print_r($tweets);
 
-        $dataView = ['hashtag' => '', 'countTweets' => '', 'topTweets' => ''];
+        $numTopRetweets = 30;
+
+        $dataView = ['hashtag' => '', 'countTweets' => '', 'topTweets' => [], 'numTopRetweets' => $numTopRetweets];
         if(!empty($request->hashtag))
         {
         	$hashtag = new Hashtag($request->hashtag);
-            $dataView = ['hashtag' => $request->hashtag, 'countTweets' => $hashtag->countTweets(12), 'topTweets' => $hashtag->getTopRetweets(3)];
+
+            $dataView['hashtag'] = $request->hashtag;
+            $dataView['countTweets'] = $hashtag->countTweets(12);
+            $dataView['topTweets'] = $hashtag->getTopRetweets($numTopRetweets);
+            
             //echo '<pre>';
             //print_r($hashtag->countTweets(12));
-            //print_r($hashtag->getTopRetweets(3));
+            //print_r($hashtag->getTopRetweets(30));
             //die;
         }
     	return view('twitter.search', $dataView);

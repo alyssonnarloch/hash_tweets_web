@@ -7,7 +7,7 @@
 				<div class="form-group">
 					<div class=" col-md-4 col-md-offset-3">
 						<label for="hashtag">#Hashtag#</label>
-						<input type="text" name="hashtag" value="{{ $hashtag }}" size="38">
+						<input type="text" name="hashtag" value="{{ $hashtag }}" size="35">
 					</div>
 				</div>
 				<div class="row">
@@ -17,52 +17,85 @@
 				</div>
 			</form>
 		</div>
-		<div class="panel-body">
-			<div class="row">
-				<div class="alert alert-success col-md-2 col-md-offset-5 text-center" role="alert">
-				  <h2>{{ $countTweets }}</h2>
-				  <h2 class="alert-heading">TWEETS</h4>
-				</div>
-			</div>
 
-			@foreach ($topTweets as $tweet)
+		@if (!empty($hashtag))
+			<div class="panel-body">
 				<div class="row">
-					<div class="col-md-1 col-md-offset-2">
-						<img src="{{ $tweet->user->profile_image_url }}">
-					</div>
-
-					<div class="col-md-9">
-						<div>{{ $tweet->user->name }}</div>
-						<div>#{{ $tweet->user->screen_name }}</div>
-						<div>{{ $tweet->retweeted_status->text }}</div>
-						<div>
-							@if (isset($tweet->retweeted_status->extended_entities->media))
-								@foreach ($tweet->retweeted_status->extended_entities->media as $key => $media)
-									@if ($media->type == 'video')
-										<video width="480" height="360" controls>
-											<source src="{{ $media->video_info->variants[0]->url }}" type="{{ $media->video_info->variants[0]->content_type }}">
-											Este navegador não suporta a visualização de vídeos.
-										</video>
-									@else
-										@if ($key == 0)
-											<div style="float: left;">
-												<img class="img-fluid" src="{{ $media->media_url }}" height="{{ $media->sizes->small->h }}" width="{{ $media->sizes->small->w }}">
-											</div>
-										@else
-											<div style="float: left;">
-												<img class="img-fluid" src="{{ $media->media_url }}" height="{{ $media->sizes->thumb->h }}" width="{{ $media->sizes->thumb->w }}">
-											</div>
-										@endif
-									@endif
-								@endforeach
-							@endif
-						</div>						
-						<div style="width: 100%; float: left;">{{ $tweet->retweeted_status->retweet_count }}</div>
+					<div class="alert alert-success col-md-2 col-md-offset-5 text-center" role="alert">
+					  <h3>{{ $countTweets }}</h3>
+					  <h4 class="alert-heading">{{ ($countTweets == 1) ? 'TWEET' : 'TWEETS' }}</h4>
 					</div>
 				</div>
-				<hr>
-			@endforeach
-		</div>
+				
+				<div class="row">
+					<div class="alert alert-info text-center" role="alert">					
+						TOP {{ $numTopRetweets }} - Mais Retweetados
+					</div>
+				</div>
+
+				@foreach ($topTweets as $tweet)
+					<div class="row">
+						<div class="col-md-1 col-md-offset-2">
+							<img class="avatar" src="{{ $tweet->user->profile_image_url }}">
+						</div>
+
+						<div class="col-md-6">
+							<span class="fullname">
+								{{ $tweet->user->name }}
+							</span>
+							<span class="username">
+								{{ '@' . $tweet->user->screen_name }}
+							</span>
+
+							<div class="tweet-text js-tweet-text tweet-text tweet">
+								<p>
+									{{ $tweet->retweeted_status->text }}
+								</p>
+							</div>
+
+							<div class="tweet-media text-center">
+								@if (isset($tweet->retweeted_status->extended_entities->media))
+									@foreach ($tweet->retweeted_status->extended_entities->media as $key => $media)
+										@if ($media->type == 'video' || $media->type == 'animated_gif')
+											<video class="tweet-video" width="510" height="auto" controls>
+												<source src="{{ $media->video_info->variants[0]->url }}" type="{{ $media->video_info->variants[0]->content_type }}">
+												Este navegador não suporta a visualização de vídeos.
+											</video>
+										@else
+											@if ($key == 0)
+												@if (count($tweet->retweeted_status->extended_entities->media) > 1)
+													<div class="left">
+														<img class="img-fluid" src="{{ $media->media_url }}" height="330" width="400">
+													</div>
+												@else
+													<div>
+														<img class="img-fluid tweet-img-main" src="{{ $media->media_url }}" height="330" width="auto">
+													</div>
+												@endif
+											@else
+												<div class="left">
+													<img class="img-fluid" src="{{ $media->media_url }}" height="110" width="110">
+												</div>
+											@endif
+										@endif
+									@endforeach
+								@endif
+							</div>
+
+							<div class="tweet-info left">
+								<span class="glyphicon glyphicon-retweet tweet-profile">
+									{{ $tweet->retweeted_status->retweet_count }}
+								</span>
+								<span class="glyphicon glyphicon-heart-empty tweet-profile">
+									{{ $tweet->retweeted_status->favorite_count }}
+								</span>
+							</div>
+						</div>
+					</div>
+					<hr>
+				@endforeach
+			</div>
+		@endif
 	</div>
 
 	<script type="text/javascript">

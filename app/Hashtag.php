@@ -16,7 +16,6 @@ class Hashtag
 		$this->tweets = $this->twitterApi->search('hashtag', $hashtag);
 	}
 
-
 	public function getTweets()
 	{
 		return $this->tweets;
@@ -62,10 +61,10 @@ class Hashtag
 		arsort($retweetsCountMap);
 
 		$countIteration = 0;
-		foreach ($tweetsMap as $id => $tweet) {
+		foreach ($retweetsCountMap as $id => $count) {
 			$countIteration++;
 
-			$topTweets[] = $tweet;
+			$topTweets[] = $tweetsMap[$id];
 
 			if($countIteration == $number)
 				break;

@@ -1,0 +1,72 @@
+.avatar {
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+}
+
+.fullname {
+    color: #14171a;
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.img-thumb {
+
+}
+
+.left {
+	float: left;
+}
+
+.tweet .js-tweet-text {
+	font-family: "Segoe UI", Arial, sans-serif;
+    white-space: pre-wrap; 
+}
+
+.tweet p {
+    color: #14171a;
+	font-family: "Segoe UI", Arial, sans-serif;
+    word-wrap: break-word;
+}
+
+.tweet-img-main {
+	max-width: 100%;
+}
+
+.tweet-info {
+	width: 100%;
+}
+
+.tweet-media {
+	width: 510px; 
+	margin: 8px;
+}
+
+.tweet-profile {
+    color: #657786;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 1;
+    margin-left: 6px;
+    position: relative;
+    vertical-align: text-bottom;
+    width: 80px;
+}
+
+.tweet-video {
+	max-height: 330px;
+}
+
+.tweet-text {
+    font-size: 14px;
+    line-height: 20px;
+    word-wrap: break-word;
+}
+
+.username, .time, .time a, .created-via {
+	font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 14px;    
+    color: #657786;
+}
