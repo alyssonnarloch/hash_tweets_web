@@ -30,10 +30,9 @@ class TwitterApi
 		$twitter = new TwitterOAuth(env('TWITTER_CONSUMER_KEY'), env('TWITTER_CONSUMER_SECRET'));
 		$response = $twitter->oauth2('oauth2/token', ['grant_type' => 'client_credentials']);
 		
-		//echo '<pre>';print_r(get_class_methods($twitter));die;
-		
 		if($twitter->getLastHttpCode() != 200)
 			throw new Exception('Erro ao gerar token: ' . $response->errors[0]->message);
+
 		return $response->access_token;		
 	}
 	
