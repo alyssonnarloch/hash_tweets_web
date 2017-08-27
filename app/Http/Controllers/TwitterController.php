@@ -21,31 +21,23 @@ class TwitterController extends Controller
         if(!empty($request->hashtag))
         {
         	$hashtagSearch = new HashtagSearch($request->hashtag);
-            $tweetsCount = $hashtagSearch->countTweets(12);
+            $tweetCount = $hashtagSearch->countTweets(12);
             $topRetweets = $hashtagSearch->getTopRetweets($numTopRetweets);        
 
-            Hashtag::saveHashtagInfo($request->hashtag, $tweetsCount, $topRetweets);
+            if($tweetCount > 0)
+                Hashtag::saveHashtagInfo($request->hashtag, $tweetCount, $topRetweets);
 
             $dataView['hashtag'] = $request->hashtag;
-            $dataView['countTweets'] = $tweetsCount;
+            $dataView['tweetCount'] = $tweetCount;
             $dataView['topTweets'] = $topRetweets;
-
-            //echo '<pre>';
-            //print_r($hashtag->countTweets(12));
-            //print_r($hashtag->getTopRetweets(30));
-            //die;
         }
+
     	return view('twitter.search', $dataView);
     }
 
 
     public function ranking()
     {
-        //$t = new TwitterApi();
-        //$r = $t->searchById('899989166125187072');
-
-        //echo '<PRE>';print_r($r);die;
-
         $hashtags = DB::select('SELECT                                    
                                     hc.id,
                                     hc.hashtag_id,
@@ -68,5 +60,46 @@ class TwitterController extends Controller
                                     hc.tweet_count DESC');
 
         return view('twitter.ranking', ['hashtags' => $hashtags]);
+    }
+
+    public function history(Request $request, $hashtagId = null)
+    {
+        $hashtagHistory = [];
+        $hashtag = null;
+
+        $hashtagRequest = $request->hashtag;
+
+        if($hashtagId > 0)
+            $hashtag = Hashtag::find($hashtagId);
+        else if(!empty($hashtagRequest))
+            $hashtag = Hashtag::where('name', $hashtagRequest)->first();
+        
+        if($hashtag == null)
+            return view('twitter.history', ['hashtag' => $hashtagRequest, 'hashtagId' => $hashtagId, 'hashtagHistory' => $hashtagHistory]);
+
+        $hashtagCalls = $hashtag->calls()->orderBy('created_at', 'desc')->get();
+
+        foreach($hashtagCalls as $call)
+        {
+            $hashtagCallInfo = [
+                'created_at' => $call->created_at->format('d/m/Y h:i:s'),
+                'tweet_count' => $call->tweet_count,
+                'top_retweets' => []
+            ];
+            foreach($call->retweets as $retweet)
+            {
+                $twitterApi = new TwitterApi;
+                $tweet = $twitterApi->searchById($retweet->tweet_id);
+
+                $tweet->retweet_count = $retweet->retweet_count;
+                $tweet->retweet_favorite = $retweet->retweet_favorite;
+
+                $hashtagCallInfo['top_retweets'][] = $tweet;
+            }
+
+            $hashtagHistory[] = $hashtagCallInfo;
+        }
+
+        return view('twitter.history', ['hashtag' => $hashtagRequest, 'hashtagId' => $hashtagId, 'hashtagHistory' => $hashtagHistory]);
     }
 }

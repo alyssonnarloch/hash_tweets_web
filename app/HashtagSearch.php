@@ -64,7 +64,7 @@ class HashtagSearch
 		foreach ($retweetsCountMap as $id => $count) {
 			$countIteration++;
 
-			$topTweets[] = $tweetsMap[$id];
+			$topTweets[] = $this->twitterApi->searchById($id);
 
 			if($countIteration == $number)
 				break;

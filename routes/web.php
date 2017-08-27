@@ -12,8 +12,9 @@
 */
 
 Route::get('/', function () {
-    return redirect('twitter/search');
+    return redirect('twitter/ranking');
 });
 
 Route::get('twitter/search/', 'TwitterController@search');
 Route::get('twitter/ranking/', 'TwitterController@ranking');
+Route::get('twitter/history/{hashtagId?}', 'TwitterController@history');

@@ -12,7 +12,7 @@ class Hashtag extends Model
 
     public function calls()
     {
-    	return $this->belongsToMany('App\Models\HashtagCall')->withPivot('tweets_count');
+    	return $this->hasMany('App\Models\HashtagCall');
     }
 
     public static function saveHashtagInfo($hashtagName, $tweetsCount, $topRetweets)
@@ -38,9 +38,9 @@ class Hashtag extends Model
             {
                 $hashtagCallRetweet = new HashtagCallRetweet;
                 $hashtagCallRetweet->hashtag_call_id = $hashtagCall->id;
-                $hashtagCallRetweet->tweet_id = $tweet->retweeted_status->id_str;
-                $hashtagCallRetweet->retweet_count = $tweet->retweeted_status->retweet_count;
-                $hashtagCallRetweet->favorite_count = $tweet->retweeted_status->favorite_count;
+                $hashtagCallRetweet->tweet_id = $tweet->id_str;
+                $hashtagCallRetweet->retweet_count = $tweet->retweet_count;
+                $hashtagCallRetweet->favorite_count = $tweet->favorite_count;
                 $hashtagCallRetweet->save();
             }
 

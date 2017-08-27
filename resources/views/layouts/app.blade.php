@@ -53,11 +53,14 @@
             <div class="row">  
                 <div class="col-sm-2">
                     <ul class="nav nav-pills nav-stacked" role="tablist">
+                        <li id="menu_ranking">
+                            <a class="nav-link" href="{{ url('twitter/ranking') }}">Ranking</a>
+                        </li>
                         <li id="menu_search">
                             <a class="nav-link" href="{{ url('twitter/search') }}">Busca</a>
                         </li>
-                        <li id="menu_ranking">
-                            <a class="nav-link" href="{{ url('twitter/ranking') }}">Ranking</a>
+                        <li id="menu_history">
+                            <a class="nav-link" href="{{ url('twitter/history') }}">Histórico</a>
                         </li>
                     </ul>
                 </div>

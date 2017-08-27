@@ -8,8 +8,13 @@ class HashtagCall extends Model
 {
     protected $table = 'hashtag_calls';
 
+    public function hashtag()
+    {
+        return $this->belongsTo('App\Models\Hashtag');
+    }
+
     public function retweets()
     {
-    	return $this->belongsToMany('App\Models\HashtagCallRetweet')->withPivot('retweet_count', 'favorite_count');
+    	return $this->hasMany('App\Models\HashtagCallRetweet');
     }
 }

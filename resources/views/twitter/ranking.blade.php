@@ -29,7 +29,9 @@
 							<td>{{ $hashtag->name }}</td>
 							<td>{{ $hashtag->tweet_count }}</td>
 							<td>{{ Util::displayDateTimePTBR($hashtag->created_at) }}</td>
-							<td>Wow</td>
+							<td>
+								<a class="btn btn-{{ ($position == 0) ? 'default' : 'success' }} btn-sm" href="{{ url('twitter/history/' . $hashtag->hashtag_id)}}">Histórico</a>
+							</td>
 						</tr>
 					@endforeach
 				</tbody>
