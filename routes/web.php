@@ -16,3 +16,4 @@ Route::get('/', function () {
 });
 
 Route::get('twitter/search/', 'TwitterController@search');
+Route::get('twitter/ranking/', 'TwitterController@ranking');

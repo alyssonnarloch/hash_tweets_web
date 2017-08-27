@@ -27,5 +27,6 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         require_once app_path() . '/Helpers/TweetInfo.php';
+        require_once app_path() . '/Helpers/Util.php';
     }
 }

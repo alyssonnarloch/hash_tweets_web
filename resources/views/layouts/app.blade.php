@@ -20,7 +20,7 @@
         <!-- Javascript -->
         <script src="{{ asset('js/app.js') }}"></script>
 
-        <nav class="navbar navbar-default navbar-static-top">
+        <nav class="navbar navbar-inverse navbar-static-top">
             <div class="container">
                 <div class="navbar-header">
                     <!-- Branding Image -->
@@ -40,6 +40,7 @@
                         <li class="dropdown">
                             <ul class="dropdown-menu" role="menu">
                                 <li>
+                                    oi
                                 </li>
                             </ul>
                         </li>                    
@@ -49,8 +50,20 @@
         </nav>
 
         <div class="container">
-            <div class="row">                
-                @yield('content')                
+            <div class="row">  
+                <div class="col-sm-2">
+                    <ul class="nav nav-pills nav-stacked" role="tablist">
+                        <li id="menu_search">
+                            <a class="nav-link" href="{{ url('twitter/search') }}">Busca</a>
+                        </li>
+                        <li id="menu_ranking">
+                            <a class="nav-link" href="{{ url('twitter/ranking') }}">Ranking</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-10">              
+                    @yield('content')
+                </div>
             </div>
         </div>
     </body>

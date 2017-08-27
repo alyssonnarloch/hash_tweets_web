@@ -3,14 +3,11 @@
 @section('content')
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<form method="GET" action="search">
-				<div class="form-inline">
-					<div class=" col-md-4 col-md-offset-3">
-						<label for="hashtag">#Hashtag#</label>
-						<input type="text" class="form-control" name="hashtag" value="{{ $hashtag }}" size="32">
-					</div>
-					<input type="submit" class="btn btn-primary btn-sm" value="Buscar">
+			<form class="form-inline" method="GET" action="search">
+				<div class="form-group col-md-offset-4">
+					<input type="text" class="form-control" name="hashtag" value="{{ $hashtag }}" placeholder="#Hashtag" size="32">
 				</div>
+				<input type="submit" class="btn btn-primary btn-sm" value="Buscar">
 			</form>
 		</div>
 
@@ -99,6 +96,7 @@
 
 	<script type="text/javascript">
 		$(function() {
+			$("#menu_search").addClass("active");
 		});
 	</script>
 @endsection

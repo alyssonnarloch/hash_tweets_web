@@ -35,9 +35,8 @@ class TwitterApi
 
 		return $response->access_token;		
 	}
-	
 
-	public function search($type, $hashtag)
+	public function searchByHashtag($type, $hashtag)
 	{
 		$twitter = new TwitterOAuth(env('TWITTER_CONSUMER_KEY'), env('TWITTER_CONSUMER_SECRET'), null, $this->accessToken);
 
@@ -51,4 +50,18 @@ class TwitterApi
 
 		return $response->statuses;
 	}
+
+	public function searchById($id)
+	{
+		$twitter = new TwitterOAuth(env('TWITTER_CONSUMER_KEY'), env('TWITTER_CONSUMER_SECRET'), null, $this->accessToken);
+
+		$response = $twitter->get('statuses/show', [
+			'id' => $id
+		]);
+
+		if($twitter->getLastHttpCode() != 200)
+			throw new Exception('Erro ao efetuar busca no twitter: ' . $response->errors[0]->message);
+
+		return $response;
+	}	
 }
