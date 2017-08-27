@@ -10,7 +10,6 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-
 class TwitterController extends Controller
 {
     public function search(Request $request)
@@ -35,9 +34,15 @@ class TwitterController extends Controller
     	return view('twitter.search', $dataView);
     }
 
-
-    public function ranking()
+    public function ranking(Request $request)
     {
+        $extraConditions = '';
+
+        if($request->start_date)
+            $extraConditions .= ' AND created_at >= \'' . Carbon::createFromFormat('d/m/Y', $request->start_date)->toDateString() . ' 00:00:00\'';
+        if($request->end_date)
+            $extraConditions .= ' AND created_at <= \'' . Carbon::createFromFormat('d/m/Y', $request->end_date)->toDateString() . ' 23:59:59\'';
+
         $hashtags = DB::select('SELECT                                    
                                     hc.id,
                                     hc.hashtag_id,
@@ -53,13 +58,14 @@ class TwitterController extends Controller
                                             hashtag_calls
                                         WHERE
                                             hashtag_id = hc.hashtag_id
+                                            ' . $extraConditions . '
                                         GROUP BY    
                                             hashtag_id    
                                     )
                                 ORDER BY
                                     hc.tweet_count DESC');
 
-        return view('twitter.ranking', ['hashtags' => $hashtags]);
+        return view('twitter.ranking', ['hashtags' => $hashtags, 'startDate' => $request->start_date, 'endDate' => $request->end_date]);
     }
 
     public function history(Request $request, $hashtagId = null)

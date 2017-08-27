@@ -7,7 +7,6 @@ use Exception;
 
 class TwitterApi
 {
-
 	private $accessToken;
 	private $twitter;
 	private $searchTypes = [
@@ -38,10 +37,10 @@ class TwitterApi
 		return $response->access_token;		
 	}
 
-	public function searchByType($type, $hashtag)
+	public function searchByType($type, $text)
 	{
 		$response = $this->twitter->get('search/tweets', [
-			'q' => $this->searchTypes[$type] . $hashtag,
+			'q' => $this->searchTypes[$type] . $text,
 			'count' => 100
 		]);
 
