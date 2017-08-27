@@ -9,7 +9,7 @@ class TwitterApi
 {
 
 	private $accessToken;
-
+	private $twitter;
 	private $searchTypes = [
 		'hashtag' => '#'
 	];
@@ -22,7 +22,9 @@ class TwitterApi
 		{
 			session(['access_token' => $this->getAccessToken()]);
 			$this->accessToken = session('access_token');
-		}		
+		}
+
+		$this->twitter = new TwitterOAuth(env('TWITTER_CONSUMER_KEY'), env('TWITTER_CONSUMER_SECRET'), null, $this->accessToken);		
 	}
 
 	public function getAccessToken()
@@ -36,16 +38,14 @@ class TwitterApi
 		return $response->access_token;		
 	}
 
-	public function searchByHashtag($type, $hashtag)
+	public function searchByType($type, $hashtag)
 	{
-		$twitter = new TwitterOAuth(env('TWITTER_CONSUMER_KEY'), env('TWITTER_CONSUMER_SECRET'), null, $this->accessToken);
-
-		$response = $twitter->get('search/tweets', [
+		$response = $this->twitter->get('search/tweets', [
 			'q' => $this->searchTypes[$type] . $hashtag,
 			'count' => 100
 		]);
 
-		if($twitter->getLastHttpCode() != 200)
+		if($this->twitter->getLastHttpCode() != 200)
 			throw new Exception('Erro ao efetuar busca no twitter: ' . $response->errors[0]->message);
 
 		return $response->statuses;
@@ -53,13 +53,11 @@ class TwitterApi
 
 	public function searchById($id)
 	{
-		$twitter = new TwitterOAuth(env('TWITTER_CONSUMER_KEY'), env('TWITTER_CONSUMER_SECRET'), null, $this->accessToken);
-
-		$response = $twitter->get('statuses/show', [
+		$response = $this->twitter->get('statuses/show', [
 			'id' => $id
 		]);
 
-		if($twitter->getLastHttpCode() != 200)
+		if($this->twitter->getLastHttpCode() != 200)
 			throw new Exception('Erro ao efetuar busca no twitter: ' . $response->errors[0]->message);
 
 		return $response;

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\HashtagSearch;
 use App\Models\Hashtag;
+use App\HashtagSearch;
+use App\TwitterApi;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
-use App\TwitterApi;
 
 class TwitterController extends Controller
 {
@@ -24,7 +24,7 @@ class TwitterController extends Controller
             $tweetCount = $hashtagSearch->countTweets(12);
             $topRetweets = $hashtagSearch->getTopRetweets($numTopRetweets);        
 
-            if($tweetCount > 0)
+            if($tweetCount > 0 || !empty($topRetweets))
                 Hashtag::saveHashtagInfo($request->hashtag, $tweetCount, $topRetweets);
 
             $dataView['hashtag'] = $request->hashtag;
@@ -82,7 +82,7 @@ class TwitterController extends Controller
         foreach($hashtagCalls as $call)
         {
             $hashtagCallInfo = [
-                'created_at' => $call->created_at->format('d/m/Y h:i:s'),
+                'created_at' => $call->created_at->format('d/m/Y H:i:s'),
                 'tweet_count' => $call->tweet_count,
                 'top_retweets' => []
             ];

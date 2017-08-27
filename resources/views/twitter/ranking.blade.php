@@ -3,9 +3,7 @@
 @section('content')
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h2>
-				#Ranking
-			</h2>
+			<h4>#Ranking</h4>
 		</div>
 
 		<div class="panel-body">

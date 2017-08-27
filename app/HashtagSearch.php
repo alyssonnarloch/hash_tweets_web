@@ -13,7 +13,7 @@ class HashtagSearch
 	function __construct($hashtag)
 	{
 		$this->twitterApi = new TwitterApi;
-		$this->tweets = $this->twitterApi->searchByHashtag('hashtag', $hashtag);
+		$this->tweets = $this->twitterApi->searchByType('hashtag', $hashtag);
 	}
 
 	public function getTweets()
