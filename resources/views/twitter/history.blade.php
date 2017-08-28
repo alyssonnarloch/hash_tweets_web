@@ -10,7 +10,7 @@
 				<div class="col-md-8">
 					<form class="form-inline" method="GET" action="{{ action('TwitterController@history') }}">
 						<div class="form-group">
-							<input type="text" class="form-control" id="datetime" name="hashtag" value="{{ $hashtag }}" placeholder="#Hashtag" size="32">
+							<input type="text" class="form-control" name="hashtag" value="{{ $hashtag }}" placeholder="#Hashtag" size="32">
 						</div>
 						<input type="submit" class="btn btn-primary btn-sm" value="Buscar">
 					</form>
@@ -44,8 +44,6 @@
 	<script type="text/javascript">
 		$(function() {
 			$("#menu_history").addClass("active");
-
-			$("#datetime").datepicker();
 		});
 	</script>
 @endsection
