@@ -8,7 +8,7 @@
 					<h4>#Histórico</h4>
 				</div>
 				<div class="col-md-8">
-					<form class="form-inline" method="GET" action="{{ action('TwitterController@history') }}">
+					<form class="form-inline" method="GET" action="{{ action('TwitterController@hashtaghistory') }}">
 						<div class="form-group">
 							<input type="text" class="form-control" name="hashtag" value="{{ $hashtag }}" placeholder="#Hashtag" size="32">
 						</div>

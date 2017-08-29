@@ -28,14 +28,14 @@ class HashtagSearch
 		$limitDateTime = Carbon::now()->addHours($hoursPeriod * (-1));
         $limitDateTime->timezone = 'UTC';
 
-        foreach($this->tweets as $tweet)
-        {
+        foreach($this->tweets as $tweet) {
         	$createdAt = Carbon::parse($tweet->created_at);
 	    
-        	if($createdAt->gte($limitDateTime))
+        	if($createdAt->gte($limitDateTime)) {
         		$count++;
-        	else
+        	} else {
         		break;
+        	}
         }
 
         return $count;
@@ -47,10 +47,8 @@ class HashtagSearch
 		$retweetsCountMap = [];
 		$tweetsMap = [];
 
-		foreach($this->tweets as $tweet)
-		{
-			if(isset($tweet->retweeted_status))
-			{
+		foreach($this->tweets as $tweet) {
+			if(isset($tweet->retweeted_status)) {
 				$originalTweet = $tweet->retweeted_status;
 				$retweetsCountMap[$originalTweet->id_str] = $originalTweet->retweet_count;
 
@@ -66,8 +64,9 @@ class HashtagSearch
 
 			$topTweets[] = $this->twitterApi->searchById($id);
 
-			if($countIteration == $number)
+			if($countIteration == $number) {
 				break;
+			}
 		}
 
 		return $topTweets;

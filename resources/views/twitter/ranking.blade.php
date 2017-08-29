@@ -8,10 +8,11 @@
 					<h4>#Ranking</h4>
 				</div>
 				<div class="col-md-8">
-					<form class="form-inline" method="GET" action="{{ action('TwitterController@ranking') }}">
+					<form class="form-inline" id="history_form" method="GET" action="{{ action('TwitterController@ranking') }}">
+						<input type="hidden" id="order" name="order" value="{{ $request->order }}">
 						<div class="form-group">
-							<input type="text" class="form-control input_date" name="start_date" value="{{ $startDate }}" placeholder="Início">
-							<input type="text" class="form-control input_date" name="end_date" value="{{ $endDate }}" placeholder="Término">
+							<input type="text" class="form-control input_date" name="start_date" value="{{ $request->start_date }}" placeholder="Início">
+							<input type="text" class="form-control input_date" name="end_date" value="{{ $request->end_date }}" placeholder="Término">
 						</div>
 						<input type="submit" class="btn btn-primary btn-sm" value="Buscar">
 					</form>
@@ -26,7 +27,19 @@
 						<th>Nº</th>
 						<th>Hashtag</th>
 						<th>Tweets</th>
-						<th>Última busca</th>
+						<th>
+							Última busca
+							&nbsp;
+							@if ($request->order == 'ASC')
+								<a id="link_order_date" data-order="DESC" href="#">
+									<span class="glyphicon glyphicon-menu-up"></span>
+								</a>
+							@else
+								<a id="link_order_date" data-order="ASC" href="#">
+									<span class="glyphicon glyphicon-menu-down"></span>
+								</a>
+							@endif
+						</th>
 						<th>Opções</th>
 					</tr>
 				</thead>
@@ -38,7 +51,7 @@
 							<td>{{ $hashtag->tweet_count }}</td>
 							<td>{{ Util::displayDateTimePTBR($hashtag->created_at) }}</td>
 							<td>
-								<a class="btn btn-{{ ($position == 0) ? 'default' : 'success' }} btn-sm" href="{{ url('twitter/history/' . $hashtag->hashtag_id)}}">Histórico</a>
+								<a class="btn btn-{{ ($position == 0) ? 'default' : 'success' }} btn-sm" href="{{ url('twitter/hashtaghistory/' . $hashtag->hashtag_id)}}">Histórico</a>
 							</td>
 						</tr>
 					@endforeach
@@ -53,6 +66,13 @@
 
 			$.datepicker.regional["pt-BR"];
       		$(".input_date").datepicker();
+
+      		$("#link_order_date").on('click', function(event) {
+      			event.preventDefault();
+
+  				$("#order").val($(this).data('order'));
+      			$("#history_form").submit();
+      		});
 		});
 	</script>
 @endsection

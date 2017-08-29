@@ -42,7 +42,7 @@
                             <a class="nav-link" href="{{ url('twitter/search') }}">Busca</a>
                         </li>
                         <li id="menu_history">
-                            <a class="nav-link" href="{{ url('twitter/history') }}">Histórico</a>
+                            <a class="nav-link" href="{{ url('twitter/hashtaglist') }}">Histórico</a>
                         </li>
                     </ul>
                 </div>

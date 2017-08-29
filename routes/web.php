@@ -17,4 +17,5 @@ Route::get('/', function () {
 
 Route::get('twitter/search/', 'TwitterController@search');
 Route::get('twitter/ranking/', 'TwitterController@ranking');
-Route::get('twitter/history/{hashtagId?}', 'TwitterController@history');
+Route::get('twitter/hashtaglist/', 'TwitterController@hashtaglist');
+Route::get('twitter/hashtaghistory/{hashtagId?}', 'TwitterController@hashtaghistory');
